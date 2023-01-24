@@ -4,7 +4,8 @@
   "homepage": "https://GROM-85.github.io/goit-js-hw-11",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /goit-js-hw-11/"
+    "build": "parcel build src/*.html --public-url /goit-js-hw-11/",
+    "server": "json-server --watch db.json -p 8080 -d 350"
   },
   "repository": {
     "type": "git",
@@ -17,13 +18,24 @@
     "url": "https://github.com/goitacademy/goit-js-hw-11/issues"
   },
   "dependencies": {
-    "modern-normalize": "^1.1.0"
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.2.3",
+    "handlebars": "^4.7.7",
+    "modern-normalize": "^1.1.0",
+    "parcel": "^2.8.3",
+    "throttle-debounce": "^5.0.0"
   },
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.6.0",
-    "parcel": "^2.6.0",
+    "@parcel/transformer-sass": "^2.8.3",
+    "axios": "^1.2.3",
+    "buffer": "^5.7.1",
+    "infinite-scroll": "^4.0.1",
+    "json-server": "^0.17.1",
+    "notiflix": "^3.2.6",
     "parcel-reporter-clean-dist": "^1.0.4",
-    "posthtml-include": "^1.7.4"
+    "parcel-transformer-hbs": "^1.0.4",
+    "posthtml-include": "^1.7.4",
+    "simplelightbox": "^2.12.1"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead"
 }

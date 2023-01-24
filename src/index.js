@@ -106,17 +106,17 @@ function scrollByBtnClick(){
     });
 }
 
-function infScroll(){
-    let {hits} = pixabayApi.fetchData();
-    let pathJSON = JSON.stringify(cards(hits));
-    let opts = {
-        path: pathJSON,
-        responseBody:"json",
+// function infScroll(){
+//     let {hits} = pixabayApi.fetchData();
+//     let pathJSON = JSON.stringify(cards(hits));
+//     let opts = {
+//         path: pathJSON,
+//         responseBody:"json",
 
-    }
-    return new InfiniteScroll(refs.gallery,opts)
-}
+//     }
+//     return new InfiniteScroll(refs.gallery,opts)
+// }
 refs.form.addEventListener("submit",fetchFormHandler);
 refs.loadMoreBtn.addEventListener("click",onLoadMoreHandler)
-infScroll();
+// infScroll();
 

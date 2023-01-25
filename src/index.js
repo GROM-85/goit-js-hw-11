@@ -8,18 +8,17 @@ import { throttle } from 'throttle-debounce';
 import cards from "./templates/cards.hbs";
 import {refs} from "./js/getRefs";
 import SimpleLightbox from "simplelightbox";
-import { preventOverflow } from '@popperjs/core';
-import { formToJSON } from 'axios';
 import { fetchAPI } from './js/fetchAPI';
 import Notiflix from "notiflix";
-import InfiniteScroll from "infinite-scroll";
+import { infScroll } from "./js/infScroll";
+import {url,apiKEY,QUERY_KEY,DELAY} from "./js/url_key"
 
-const url = "https://pixabay.com/api/?";
-const apiKEY = "32950836-9c0ce5402bfaddd9a8ff9a3e7";
-const DELAY = 500;
-const QUERY_KEY = "query_pixabay";
+
+
+let isInfScroll = false;
 let counterHits = 0;
 refs.loadMoreBtn.setAttribute("disabled",true);
+let lightbox;
 
 const options = {
     key:apiKEY,
@@ -47,8 +46,10 @@ function renderData({totalHits,hits}){
     countHits(totalHits)
     let markup = cards(hits);
     refs.gallery.insertAdjacentHTML("beforeend",markup);
-    scrollByBtnClick();
-    createLightBox();
+
+    if(!isInfScroll)scrollByBtnClick();
+    
+    lightbox = createLightBox();
     
 }
 
@@ -91,8 +92,11 @@ function clearContent(){
 }
 
 function onLoadMoreHandler(){
+    lightbox.destroy();
+    isInfScroll = false;
     pixabayApi.fetchData()
         .then(renderData);
+    
 }
 
 function scrollByBtnClick(){
@@ -106,17 +110,14 @@ function scrollByBtnClick(){
     });
 }
 
-// function infScroll(){
-//     let {hits} = pixabayApi.fetchData();
-//     let pathJSON = JSON.stringify(cards(hits));
-//     let opts = {
-//         path: pathJSON,
-//         responseBody:"json",
-
-//     }
-//     return new InfiniteScroll(refs.gallery,opts)
-// }
 refs.form.addEventListener("submit",fetchFormHandler);
-refs.loadMoreBtn.addEventListener("click",onLoadMoreHandler)
-// infScroll();
+refs.loadMoreBtn.addEventListener("click",onLoadMoreHandler);
 
+infScroll.on("load", (body) => {
+    isInfScroll = true;
+    lightbox.destroy();
+    console.log("onScroll",body);
+    renderData(body);
+    createLightBox();
+
+});

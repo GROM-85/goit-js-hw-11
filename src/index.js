@@ -11,8 +11,7 @@ import SimpleLightbox from "simplelightbox";
 import { fetchAPI } from './js/fetchAPI';
 import Notiflix from "notiflix";
 import { infScroll } from "./js/infScroll";
-import {url,apiKEY,QUERY_KEY,DELAY} from "./js/url_key"
-
+import {url,apiKEY,QUERY_KEY,DELAY} from "./js/constants";
 
 
 let isInfScroll = false;
@@ -20,7 +19,7 @@ let counterHits = 0;
 refs.loadMoreBtn.setAttribute("disabled",true);
 let lightbox;
 
-const options = {
+export const options = {
     key:apiKEY,
     q:"",
     image_type:"photo",
@@ -81,8 +80,8 @@ function fetchFormHandler(event){
     pixabayApi.stoteQuery(data.value);
     clearContent();
     pixabayApi.resetPage();
-    pixabayApi.fetchData()
-        .then(renderData);
+    pixabayApi.fetchData() // since async fetchData() is async  functoin && return Promise
+        .then(renderData); // we can use then() to pass callback
     refs.loadMoreBtn.removeAttribute("disabled")    
     event.currentTarget.reset();
 }
@@ -113,10 +112,4 @@ function scrollByBtnClick(){
 refs.form.addEventListener("submit",fetchFormHandler);
 refs.loadMoreBtn.addEventListener("click",onLoadMoreHandler);
 
-infScroll.on("load", (body) => {
-    isInfScroll = true;
-    lightbox.destroy();
-    console.log("onScroll",body);
-    renderData(body);
 
-});

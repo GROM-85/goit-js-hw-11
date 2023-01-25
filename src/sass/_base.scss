@@ -79,13 +79,16 @@
   }
 
   .btn.btn-primary{
-        position:fixed;
-        bottom:2em;
-        left: 50%;
-        transform: translateX(-50%);
+      position:fixed;
+      bottom:2em;
+      left: 50%;
+      transform: translateX(-50%);
+      
+
         &:disabled{
-       
+        opacity:0.3;
         background-color: rgb(31, 133, 241);
     
   }
+  
 }

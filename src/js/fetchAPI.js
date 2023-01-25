@@ -26,8 +26,11 @@ export class fetchAPI{
         try {
             const response = await axios.get(this.url + new URLSearchParams(this.options));
             this.updatePage();
-            // console.dir(response);
-            return response.data;
+            
+            console.dir(response); //Object 
+            
+            return response.data; // async return Promise 
+            // in here its equal to Promise.resolve(response.data)
 
         } catch(error){
             console.log(error.message);

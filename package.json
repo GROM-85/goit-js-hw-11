@@ -29,6 +29,7 @@
     "@parcel/transformer-sass": "^2.8.3",
     "axios": "^1.2.3",
     "buffer": "^5.7.1",
+    "constants-browserify": "^1.0.0",
     "infinite-scroll": "^4.0.1",
     "json-server": "^0.17.1",
     "notiflix": "^3.2.6",

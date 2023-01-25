@@ -1,6 +1,6 @@
 import InfiniteScroll from "infinite-scroll";
 import { refs } from "./getRefs";
-import {url,apiKEY,QUERY_KEY} from "./url_key";
+import {url,apiKEY,QUERY_KEY} from "./constants";
 export {infScroll};
 
 let opts = {
@@ -22,7 +22,15 @@ let opts = {
 
 }
 
-let  infScroll =  new InfiniteScroll(refs.gallery,opts);
+// let  infScroll =  new InfiniteScroll(refs.gallery,opts);
+
+// infScroll.on("load", (body) => {
+    //     isInfScroll = true;
+    //     lightbox.destroy();
+    //     console.log("onScroll",body);
+    //     renderData(body);
+    
+    // });
 
 
 

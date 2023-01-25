@@ -5,6 +5,7 @@ export {infScroll};
 
 let opts = {
     path: function(){
+        console.log("nextIndex",this.pageIndex);
         return url + new URLSearchParams(
             {
                 key:apiKEY,
@@ -12,7 +13,7 @@ let opts = {
                 image_type:"photo",
                 orientation:"horizontal",
                 safesearch:"true",
-                page: this.nextIndex,
+                page: this.pageIndex,
                 per_page: 40,
             }
         )},

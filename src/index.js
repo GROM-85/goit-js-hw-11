@@ -118,6 +118,5 @@ infScroll.on("load", (body) => {
     lightbox.destroy();
     console.log("onScroll",body);
     renderData(body);
-    createLightBox();
 
 });

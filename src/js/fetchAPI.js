@@ -11,6 +11,7 @@ export class fetchAPI{
 
     async fetchData(){
         this.options.q = this.getQuery();
+        //================ via fetch()
         // return fetch(this.url + new URLSearchParams(this.options))
         //     .then(response => {
         //         if (!response.ok) {
@@ -23,11 +24,15 @@ export class fetchAPI{
         //         return hits;
         //     })
         //     .catch(error=>console.log(error.message));
+        //=====================
+
+        //============== via axios.get()
         try {
             const response = await axios.get(this.url + new URLSearchParams(this.options));
             this.updatePage();
             
-            console.dir(response); //Object 
+            console.dir(response); //we receive Object as this axios.get 
+                                    // in fetch() we'd receive Response obj 
             
             return response.data; // async return Promise 
             // in here its equal to Promise.resolve(response.data)

@@ -1,3 +1,7 @@
+//===============
+// TEST INF-SCROLL
+//===============
+
 import {url,apiKEY,QUERY_KEY,DELAY} from "./constants";
 import {refs} from "./getRefs";
 import {options} from "../index";
@@ -6,6 +10,7 @@ import cards from "../templates/cards.hbs";
 
 const getImgs = async (opts) =>{
     const response = await fetch(url + new URLSearchParams(opts));
+    console.log("myInfScroll",response); //Response obj
     if(!response.ok){
         throw new Error(response.status);
     }
@@ -31,7 +36,6 @@ const hasMoreImgs = (page,limit,total) =>{
     return total === 0 || startInd < total;
 }
 
-
 const loadImgs = async () => {
     // showLoader();
     try{
@@ -51,6 +55,10 @@ const loadImgs = async () => {
 // scroll Event
 
 function onScrollHandler(){
+    console.log("scrollTop",document.documentElement.scrollTop);
+    console.log("scrollHeight",document.documentElement.scrollHeight);
+    console.log("clientHieght",document.documentElement.clientHeight);
+
     const{
         scrollTop,
         scrollHeight,
@@ -59,8 +67,7 @@ function onScrollHandler(){
 
     if(scrollTop + clientHeight >= scrollHeight - 5 ){
         loadImgs();
-    }
-    
+    }   
 }
 
 window.addEventListener("scroll",throttle(DELAY,onScrollHandler),{

@@ -1,7 +1,3 @@
-// import "./js/r_GET" ;
-// import "./js/c_POST";
-// import "./js/u_UPDATE";
-// import "./js/d_DELETE";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import * as bootstrap from 'bootstrap';
 import { throttle } from 'throttle-debounce';
@@ -13,7 +9,7 @@ import Notiflix from "notiflix";
 import { infScroll } from "./js/infScroll";
 import {url,apiKEY,QUERY_KEY,DELAY} from "./js/constants";
 
-let isInfScroll = false;
+let isloadMore = false;
 let counterHits = 0;
 let lightbox;
 
@@ -50,9 +46,11 @@ function renderData({totalHits,hits}){
     
     let markup = cards(hits);
     refs.gallery.insertAdjacentHTML("beforeend",markup);
-    // refs.gallery.after(refs.loadMoreBtn);
-    // loadMoreBtnHiddenToggle();
-    if(!isInfScroll)scrollByBtnClick();
+
+    if(isloadMore){
+        refs.gallery.after(refs.loadMoreBtn);
+        scrollByBtnClick();
+    }
 
     lightbox = createLightBox();
     
@@ -69,16 +67,18 @@ function createLightBox(){
 function isContentFinished(totalHits){
     
     counterHits += options.per_page;
-    console.log(counterHits)
-    console.log(totalHits)
+    // console.log(counterHits)
+    // console.log(totalHits)
     if(counterHits >= totalHits){
         counterHits = 0;
-        isInfScroll = false;
+        isloadMore = false;
         refs.loadMoreBtn.removeEventListener("click",onLoadMoreHandler);
         window.removeEventListener("scroll",InfScrollHandler,{
             passive:true
         });
-        // loadMoreBtnHiddenToggle();
+        if(isloadMore){
+            refs.loadMoreBtn.hidden = true;
+        }
          return true;
         }
 }
@@ -112,8 +112,6 @@ function clearContent(){
 
 function onLoadMoreHandler(){
     lightbox.destroy();
-    loadMoreBtnHiddenToggle();
-    isInfScroll = false;
     pixabayApi.fetchData()
         .then(renderData);
     
@@ -134,6 +132,7 @@ function loadMoreBtnHiddenToggle(){
 const dotsToggle = () => {
     refs.loader.hidden = !refs.loader.hidden;
 }
+
 const InfScrollHandler = throttle(500,() => {
     const {
         scrollTop,
@@ -141,19 +140,28 @@ const InfScrollHandler = throttle(500,() => {
         clientHeight,
     } = document.documentElement;
 
-    if(scrollTop + clientHeight >= scrollHeight - 5){
-        isInfScroll = true;
-        console.log(isInfScroll)
+    if(scrollTop + clientHeight >= scrollHeight - 5 && isloadMore === false){
         lightbox.destroy();
         dotsToggle();
         setTimeout(async () => {
-        pixabayApi.fetchData() // since async fetchData() is async  functoin && return Promise
+        pixabayApi.fetchData() // since async fetchData() is async  function && return Promise
             .then(renderData); // we can use then() to pass callback
             dotsToggle();
         },1000);
     }
 })
 
-refs.form.addEventListener("submit",fetchFormHandler);
+function scrollSwitchHandler({currentTarget}){
+    const {checked} = currentTarget;
+    isloadMore = checked;
+    if(checked){
+        refs.gallery.after(refs.loadMoreBtn);
+        refs.loadMoreBtn.hidden = false;
+    }else{
+        refs.loadMoreBtn.hidden = true;
+    }
+}
 
+refs.form.addEventListener("submit",fetchFormHandler);
+refs.scrollSlider.addEventListener("click",scrollSwitchHandler)
 
